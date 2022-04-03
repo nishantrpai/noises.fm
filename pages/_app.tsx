@@ -53,7 +53,6 @@ const noises: Noise[] = [
 ]
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [currentlyPlaying, setCurrentlyPlaying] = useState<any[]>([])
   const [currentTheme, setCurrentTheme] = useState<any>(null)
 
   const createAudioElement = (src: string) => {
@@ -69,46 +68,38 @@ function MyApp({ Component, pageProps }: AppProps) {
     })
   }, [])
 
-  useEffect(() => {
-    console.log('playlist changed')
-    // stop all songs currently being played
-    console.log(currentlyPlaying)
-  }, [currentlyPlaying])
+  const removeFrmPlaylist = (noise: Noise) => {
+    noise.isPlaying = false
+    noise.el.volume = 0
+    noise.el.pause()
+    noise.el.remove()
+    noise.el = null
+    noise.el = createAudioElement(noise.src)
+    noise.el.currentTime = 0
+  }
+
+  const addToPlayList = (noise: Noise) => {
+    noise.isPlaying = true
+    noise.el.play()
+    noise.el.addEventListener('ended', () => {
+      let duration = Math.ceil(noise.el.duration * 1000)
+      console.log(duration)
+      //timeout before playing the track again
+      let timeout = Math.floor(Math.random() * 10 * duration) + 5 * duration
+      console.log(noise.name, timeout)
+      setTimeout(() => {
+        noise.el.play()
+      }, timeout)
+    })
+  }
 
   const playSong = (noise: Noise) => {
-    let currentlyplayingcopy = [...currentlyPlaying]
     if (noise.isPlaying) {
-      noise.isPlaying = false
-      noise.el.volume = 0
-      noise.el.pause()
-      noise.el.remove()
-      noise.el = null
-      noise.el = createAudioElement(noise.src)
-      noise.el.currentTime = 0
-
-      if (currentlyplayingcopy.includes(noise)) {
-        currentlyplayingcopy = currentlyplayingcopy.filter(
-          (playing) => playing.name != noise.name
-        )
-      }
+      removeFrmPlaylist(noise)
     } else {
-      noise.isPlaying = true
-      noise.el.play()
-      noise.el.addEventListener('ended', () => {
-        let duration = Math.ceil(noise.el.duration * 1000)
-        console.log(duration)
-        //timeout before playing the track again
-        let timeout = Math.floor(Math.random() * 10 * duration) + 5 * duration
-        console.log(timeout)
-        setTimeout(() => {
-          noise.el.play()
-        }, timeout)
-      })
-      currentlyplayingcopy.push(noise)
+      addToPlayList(noise)
     }
-
     setCurrentTheme(null)
-    setCurrentlyPlaying(currentlyplayingcopy)
   }
 
   const playSongs = (arr: Noise[]) => {
@@ -116,8 +107,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       'playing',
       arr.map((noise: any) => noise.name)
     )
-    arr.forEach((noise: any) => (noise.isPlaying = true))
-    setCurrentlyPlaying(arr)
+
+    noises.forEach((noise: Noise) => removeFrmPlaylist(noise))
+    arr.forEach((noise: any) => addToPlayList(noise))
   }
 
   const playFn = (fn: any) => {
@@ -140,7 +132,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AudioContext.Provider
       value={{
-        state: { noises, functions, currentlyPlaying, currentTheme },
+        state: { noises, functions, currentTheme },
         playFn,
         playSong,
       }}
