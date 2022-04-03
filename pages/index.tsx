@@ -28,15 +28,18 @@ const Home: NextPage = () => {
         ))}
 
         {noises.map((noise: Noise) => (
-          <a
-            onClick={() => {
-              playSong(noise)
-            }}
+          <div
             className={`${noise.isPlaying ? 'text-blue-600' : 'text-black'}`}
           >
-            {noise.name} {noise.isPlaying ? '🔊' : 'not'}
+            <span
+              onClick={() => {
+                playSong(noise)
+              }}
+            >
+              {noise.name} {noise.isPlaying ? '🔊' : ''}
+            </span>
             {noise.isPlaying && <NoiseComponent {...noise} />}
-          </a>
+          </div>
         ))}
       </main>
     </div>
