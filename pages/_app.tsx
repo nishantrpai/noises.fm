@@ -50,6 +50,7 @@ const noises: Noise[] = [
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [currentlyPlaying, setCurrentlyPlaying] = useState<any[]>([])
+  const [currentTheme, setCurrentTheme] = useState<any>(null)
 
   useEffect(() => {
     noises.map((noise) => {
@@ -73,6 +74,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     } else {
       currentlyplayingcopy.push(noise)
     }
+    setCurrentTheme(null)
     setCurrentlyPlaying(currentlyplayingcopy)
   }
 
@@ -97,13 +99,14 @@ function MyApp({ Component, pageProps }: AppProps) {
         arr = noises
         break
     }
+    setCurrentTheme(fn)
     playSongs(arr.sort(() => Math.random() - Math.random()).slice(0, 3))
   }
 
   return (
     <AudioContext.Provider
       value={{
-        state: { noises, functions, currentlyPlaying },
+        state: { noises, functions, currentlyPlaying, currentTheme },
         playFn,
         playSong,
       }}

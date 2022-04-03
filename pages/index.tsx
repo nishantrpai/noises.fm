@@ -6,7 +6,7 @@ import AudioContext from './appcontext'
 
 const Home: NextPage = () => {
   const { state, playFn, playSong } = useContext(AudioContext)
-  const { noises, functions, currentlyPlaying } = state
+  const { noises, functions, currentlyPlaying, currentTheme } = state
   const currentsongs = currentlyPlaying.map((noise) => noise.name)
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
@@ -17,7 +17,14 @@ const Home: NextPage = () => {
 
       <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
         {functions.map((fn) => (
-          <a onClick={() => playFn(fn.name)}>{fn.name}</a>
+          <a
+            onClick={() => playFn(fn.name)}
+            className={`${
+              currentTheme == fn.name ? 'text-blue-800' : 'text-black'
+            }`}
+          >
+            {fn.name}
+          </a>
         ))}
 
         {noises.map((noise) => (
