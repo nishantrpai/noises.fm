@@ -5,8 +5,9 @@ import { useContext } from 'react'
 import AudioContext from './appcontext'
 
 const Home: NextPage = () => {
-  const { state, playFn } = useContext(AudioContext)
-  const { noises, functions } = state
+  const { state, playFn, playSong } = useContext(AudioContext)
+  const { noises, functions, currentlyPlaying } = state
+  const currentsongs = currentlyPlaying.map((noise) => noise.name)
   return (
     <div className="flex min-h-screen flex-col items-center justify-center py-2">
       <Head>
@@ -22,8 +23,11 @@ const Home: NextPage = () => {
         {noises.map((noise) => (
           <a
             onClick={() => {
-              noise.el.play()
+              playSong(noise)
             }}
+            className={`${
+              currentsongs.includes(noise.name) ? 'text-blue-600' : 'text-black'
+            }`}
           >
             {noise.name}
           </a>

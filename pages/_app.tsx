@@ -1,7 +1,11 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import AudioContext, { Noise, AudioContextState } from './appcontext'
-import { useEffect } from 'react'
+import AudioContext, {
+  Noise,
+  AudioContextState,
+  NoiseFunction,
+} from './appcontext'
+import { useEffect, useState } from 'react'
 
 /**
  * Logic:
@@ -45,8 +49,9 @@ const noises: Noise[] = [
 ]
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [currentlyPlaying, setCurrentlyPlaying] = useState<any[]>([])
+
   useEffect(() => {
-    console.log('app init')
     noises.map((noise) => {
       let el = document.createElement('audio')
       el.src = noise.src
@@ -55,7 +60,31 @@ function MyApp({ Component, pageProps }: AppProps) {
     })
   }, [])
 
-  const playFn = (fn) => {
+  useEffect(() => {
+    console.log('playlist changed')
+  }, [currentlyPlaying])
+
+  const playSong = (noise: Noise) => {
+    let currentlyplayingcopy = [...currentlyPlaying]
+    if (currentlyplayingcopy.includes(noise)) {
+      currentlyplayingcopy = currentlyplayingcopy.filter(
+        (playing) => playing != noise
+      )
+    } else {
+      currentlyplayingcopy.push(noise)
+    }
+    setCurrentlyPlaying(currentlyplayingcopy)
+  }
+
+  const playSongs = (arr: Noise[]) => {
+    console.log(
+      'playing',
+      arr.map((noise: any) => noise.name)
+    )
+    setCurrentlyPlaying(arr)
+  }
+
+  const playFn = (fn: any) => {
     let arr = []
     switch (fn) {
       case 'work':
@@ -68,12 +97,16 @@ function MyApp({ Component, pageProps }: AppProps) {
         arr = noises
         break
     }
-    console.log(arr.sort(() => Math.random() - Math.random()).slice(0, 3))
+    playSongs(arr.sort(() => Math.random() - Math.random()).slice(0, 3))
   }
 
   return (
     <AudioContext.Provider
-      value={{ state: { noises, functions }, playFn: playFn }}
+      value={{
+        state: { noises, functions, currentlyPlaying },
+        playFn,
+        playSong,
+      }}
     >
       <Component {...pageProps} />
     </AudioContext.Provider>
