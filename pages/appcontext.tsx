@@ -5,6 +5,7 @@ export interface Noise {
   src: any
   el: any
   type: any
+  isPlaying: boolean
 }
 
 export interface NoiseFunction {
