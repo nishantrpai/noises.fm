@@ -17,6 +17,7 @@ export interface AudioContextState {
   state: {
     noises: Noise[]
     functions: NoiseFunction[]
+    currentPlaylist: Noise[]
     currentTheme: any
   }
   playFn: (fn: string) => any

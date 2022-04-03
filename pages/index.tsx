@@ -2,7 +2,8 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useContext } from 'react'
-import AudioContext from './appcontext'
+import NoiseComponent from '../components/noise'
+import AudioContext, { Noise } from '../util/appcontext'
 
 const Home: NextPage = () => {
   const { state, playFn, playSong } = useContext(AudioContext)
@@ -26,16 +27,15 @@ const Home: NextPage = () => {
           </a>
         ))}
 
-        {noises.map((noise) => (
+        {noises.map((noise: Noise) => (
           <a
             onClick={() => {
               playSong(noise)
             }}
-            className={`${
-              noise.isPlaying ? 'text-blue-600' : 'text-black'
-            }`}
+            className={`${noise.isPlaying ? 'text-blue-600' : 'text-black'}`}
           >
-            {noise.name}
+            {noise.name} {noise.isPlaying ? '🔊' : 'not'}
+            {noise.isPlaying && <NoiseComponent {...noise} />}
           </a>
         ))}
       </main>

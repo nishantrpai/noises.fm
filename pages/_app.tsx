@@ -4,7 +4,7 @@ import AudioContext, {
   Noise,
   AudioContextState,
   NoiseFunction,
-} from './appcontext'
+} from '../util/appcontext'
 import { useEffect, useState } from 'react'
 
 /**
@@ -44,8 +44,8 @@ const noises: Noise[] = [
     isPlaying: false,
   },
   {
-    name: 'cembalo4',
-    src: '/audio/cembalo-12.wav',
+    name: 'Light Rain',
+    src: '/audio/lightrain.wav',
     el: null,
     type: 'work',
     isPlaying: false,
@@ -54,43 +54,21 @@ const noises: Noise[] = [
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [currentTheme, setCurrentTheme] = useState<any>(null)
-
-  const createAudioElement = (src: string) => {
-    let el = document.createElement('audio')
-    el.src = src
-    return el
-  }
+  const [currentPlaylist, setCurrentPlayList] = useState<Noise[]>([])
 
   useEffect(() => {
-    noises.map((noise) => {
-      noise.el = createAudioElement(noise.src)
-      return noise
-    })
+    console.log('app init')
   }, [])
 
   const removeFrmPlaylist = (noise: Noise) => {
     noise.isPlaying = false
-    noise.el.volume = 0
-    noise.el.pause()
-    noise.el.remove()
-    noise.el = null
-    noise.el = createAudioElement(noise.src)
-    noise.el.currentTime = 0
+    console.log('remove from playlist', noise.name)
+    setCurrentPlayList(currentPlaylist.filter((n) => n.name !== noise.name))
   }
 
   const addToPlayList = (noise: Noise) => {
     noise.isPlaying = true
-    noise.el.play()
-    noise.el.addEventListener('ended', () => {
-      let duration = Math.ceil(noise.el.duration * 1000)
-      console.log(duration)
-      //timeout before playing the track again
-      let timeout = Math.floor(Math.random() * 10 * duration) + 5 * duration
-      console.log(noise.name, timeout)
-      setTimeout(() => {
-        noise.el.play()
-      }, timeout)
-    })
+    setCurrentPlayList([...currentPlaylist, noise])
   }
 
   const playSong = (noise: Noise) => {
@@ -102,37 +80,46 @@ function MyApp({ Component, pageProps }: AppProps) {
     setCurrentTheme(null)
   }
 
-  const playSongs = (arr: Noise[]) => {
-    console.log(
-      'playing',
-      arr.map((noise: any) => noise.name)
-    )
-
+  const clearPlaylist = () => {
     noises.forEach((noise: Noise) => removeFrmPlaylist(noise))
-    arr.forEach((noise: any) => addToPlayList(noise))
+    setCurrentPlayList([] as Noise[])
+  }
+
+  const playSongs = (arr: Noise[]) => {
+    console.log(arr)
+    // remove all current tracks
+    clearPlaylist()
+    // add new tracks
+    arr.forEach((track: Noise) => addToPlayList(track))
+    setCurrentPlayList(arr)
   }
 
   const playFn = (fn: any) => {
     let arr = []
-    switch (fn) {
-      case 'work':
-        arr = noises.filter((noise) => noise.type == 'work')
-        break
-      case 'sleep':
-        arr = noises.filter((noise) => noise.type == 'sleep')
-        break
-      default:
-        arr = noises
-        break
+    if (currentTheme == fn) {
+      clearPlaylist()
+      setCurrentTheme(null)
+    } else {
+      switch (fn) {
+        case 'work':
+          arr = noises.filter((noise) => noise.type == 'work')
+          break
+        case 'sleep':
+          arr = noises.filter((noise) => noise.type == 'sleep')
+          break
+        default:
+          arr = noises
+          break
+      }
+      setCurrentTheme(fn)
+      playSongs(arr.sort(() => Math.random() - Math.random()).slice(0, 3))
     }
-    setCurrentTheme(fn)
-    playSongs(arr.sort(() => Math.random() - Math.random()).slice(0, 3))
   }
 
   return (
     <AudioContext.Provider
       value={{
-        state: { noises, functions, currentTheme },
+        state: { noises, functions, currentTheme, currentPlaylist },
         playFn,
         playSong,
       }}
