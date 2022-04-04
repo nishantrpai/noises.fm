@@ -3,7 +3,6 @@ import { createContext } from 'react'
 export interface Noise {
   name: any
   src: any
-  el: any
   type: any
   isPlaying: boolean
 }

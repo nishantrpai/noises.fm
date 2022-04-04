@@ -9,8 +9,8 @@ import { useEffect, useState } from 'react'
 
 /**
  * Logic:
- *  Sleep: sombre music
- *  Work: wake music
+ *  Sleep: heavy rain
+ *  Work: light rain
  */
 const functions: NoiseFunction[] = [
   {
@@ -23,23 +23,32 @@ const functions: NoiseFunction[] = [
 
 const noises: Noise[] = [
   {
-    name: 'Light Rain',
-    src: '/audio/background/nature/light-rain.wav',
-    el: null,
+    name: 'Heavy Rain',
+    src: '/audio/background/nature/rain-strong-with-thunders.mp3',
     type: 'sleep',
     isPlaying: false,
   },
   {
-    name: 'Soft Wind',
-    src: '/audio/background/nature/soft-wind.wav',
-    el: null,
+    name: 'Light Rain',
+    src: '/audio/background/nature/rain-falls-against-the-parasol.mp3',
     type: 'work',
     isPlaying: false,
   },
   {
-    name: 'Wind & Rain',
-    src: '/audio/background/nature/wind-and-rain.wav',
-    el: null,
+    name: 'Pattaya Beach',
+    src: '/audio/background/nature/pattaya-beach.mp3',
+    type: 'work',
+    isPlaying: false,
+  },
+  {
+    name: 'Forest Summer',
+    src: '/audio/background/nature/forest-summer.mp3',
+    type: 'work',
+    isPlaying: false,
+  },
+  {
+    name: 'Escobar',
+    src: '/audio/background/nature/escobar-diego-geo-fonias-arroyo.mp3',
     type: 'work',
     isPlaying: false,
   },
