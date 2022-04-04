@@ -10,7 +10,6 @@ export interface Noise {
 
 export interface NoiseFunction {
   name: any
-  theme: any
 }
 
 export interface AudioContextState {
