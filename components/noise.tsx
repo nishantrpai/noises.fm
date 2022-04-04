@@ -27,14 +27,21 @@ const NoiseComponent: any = (noise: Noise) => {
   useEffect(() => {
     console.log('mount noise', noise.name)
     if (audioRef && audioRef.current) {
-      if (noise.isPlaying) audioRef.current.addEventListener('ended', loopFn)
+      if (noise.isPlaying && !noise.src.includes('background'))
+        //for bg noise dont add event
+        audioRef.current.addEventListener('ended', loopFn)
       else audioRef.current.removeEventListener('ended', loopFn)
     }
   }, [])
 
   return noise.isPlaying ? (
     <div className="flex">
-      <audio ref={audioRef} src={noise.src} autoPlay />
+      <audio
+        ref={audioRef}
+        src={noise.src}
+        autoPlay
+        loop={noise.src.includes('background')} //background noise needn't worry about delay for looping
+      />
       <div className="flex">
         <button
           className="w-24 bg-gray-100 p-2"

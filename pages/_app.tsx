@@ -23,29 +23,22 @@ const functions: NoiseFunction[] = [
 
 const noises: Noise[] = [
   {
-    name: 'cembalo1',
-    src: '/audio/cembalo-6.wav',
+    name: 'Light Rain',
+    src: '/audio/background/nature/light-rain.wav',
     el: null,
     type: 'sleep',
     isPlaying: false,
   },
   {
-    name: 'cembalo2',
-    src: '/audio/cembalo-10.wav',
-    el: null,
-    type: 'sleep',
-    isPlaying: false,
-  },
-  {
-    name: 'cembalo3',
-    src: '/audio/cembalo-11.wav',
+    name: 'Soft Wind',
+    src: '/audio/background/nature/soft-wind.wav',
     el: null,
     type: 'work',
     isPlaying: false,
   },
   {
-    name: 'Light Rain',
-    src: '/audio/lightrain.wav',
+    name: 'Wind & Rain',
+    src: '/audio/background/nature/wind-and-rain.wav',
     el: null,
     type: 'work',
     isPlaying: false,
