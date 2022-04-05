@@ -15,7 +15,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
+      <main className="flex w-full flex-1 flex-col justify-center px-20">
+        {/** items center */}
         {functions.map((fn) => (
           <a
             onClick={() => playFn(fn.name)}
@@ -26,21 +27,41 @@ const Home: NextPage = () => {
             {fn.name}
           </a>
         ))}
-
-        {noises.map((noise: Noise) => (
-          <div
-            className={`${noise.isPlaying ? 'text-blue-600' : 'text-black'}`}
-          >
-            <span
-              onClick={() => {
-                playSong(noise)
-              }}
+        <p className="mt-4 font-bold">Primary</p>
+        {noises
+          .filter((noise) => noise.src.includes('primary'))
+          .map((noise: Noise) => (
+            <div
+              className={`${noise.isPlaying ? 'text-blue-600' : 'text-black'}`}
             >
-              {noise.name} {noise.isPlaying ? '🔊' : ''}
-            </span>
-            {noise.isPlaying && <NoiseComponent {...noise} />}
-          </div>
-        ))}
+              <span
+                onClick={() => {
+                  playSong(noise)
+                }}
+              >
+                {noise.name} ({noise.type}) {noise.isPlaying ? '🔊' : ''}
+              </span>
+              {noise.isPlaying && <NoiseComponent {...noise} />}
+            </div>
+          ))}
+
+        <p className="mt-4 font-bold">Background</p>
+        {noises
+          .filter((noise) => noise.src.includes('background'))
+          .map((noise: Noise) => (
+            <div
+              className={`${noise.isPlaying ? 'text-blue-600' : 'text-black'}`}
+            >
+              <span
+                onClick={() => {
+                  playSong(noise)
+                }}
+              >
+                {noise.name} ({noise.type}) {noise.isPlaying ? '🔊' : ''}
+              </span>
+              {noise.isPlaying && <NoiseComponent {...noise} />}
+            </div>
+          ))}
       </main>
     </div>
   )

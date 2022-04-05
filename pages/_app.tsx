@@ -47,9 +47,33 @@ const noises: Noise[] = [
     isPlaying: false,
   },
   {
-    name: 'Escobar',
-    src: '/audio/background/nature/escobar-diego-geo-fonias-arroyo.mp3',
+    name: 'Wind Blowing',
+    src: '/audio/primary/wind-blow.mp3',
+    type: 'sleep',
+    isPlaying: false,
+  },
+  {
+    name: 'Camp Fire',
+    src: '/audio/primary/camp-fire.mp3',
     type: 'work',
+    isPlaying: false,
+  },
+  {
+    name: 'Birds Singing',
+    src: '/audio/primary/birds-singing.mp3',
+    type: 'work',
+    isPlaying: false,
+  },
+  {
+    name: 'Fan',
+    src: '/audio/primary/fan-01.mp3',
+    type: 'work',
+    isPlaying: false,
+  },
+  {
+    name: 'Night',
+    src: '/audio/primary/cicada-night.mp3',
+    type: 'sleep',
     isPlaying: false,
   },
 ]
@@ -102,19 +126,23 @@ function MyApp({ Component, pageProps }: AppProps) {
       clearPlaylist()
       setCurrentTheme(null)
     } else {
-      switch (fn) {
-        case 'work':
-          arr = noises.filter((noise) => noise.type == 'work')
-          break
-        case 'sleep':
-          arr = noises.filter((noise) => noise.type == 'sleep')
-          break
-        default:
-          arr = noises
-          break
-      }
+      let primaryarr: Noise[] = []
+      let backgroundarr: Noise[] = []
+
+      primaryarr = noises.filter(
+        (noise) => noise.type == fn && noise.src.includes('primary')
+      )
+      backgroundarr = noises.filter(
+        (noise) => noise.type == fn && noise.src.includes('background')
+      )
+
+      arr = [
+        ...primaryarr.sort(() => Math.random() - Math.random()).slice(0, 3),
+        ...backgroundarr.sort(() => Math.random() - Math.random()).slice(0, 1),
+      ]
+
       setCurrentTheme(fn)
-      playSongs(arr.sort(() => Math.random() - Math.random()).slice(0, 3))
+      playSongs(arr)
     }
   }
 

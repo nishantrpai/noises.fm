@@ -7,14 +7,15 @@ const NoiseComponent: any = (noise: Noise) => {
   const [volume, setVolume] = useState(100)
 
   const loopFn = () => {
-    let duration = Math.ceil(audioRef?.current?.duration * 1000)
+    let duration = Math.ceil(audioRef?.current?.duration * 100)
     console.log(duration)
     //timeout before playing the track again
     let timeout = Math.floor(Math.random() * 10 * duration) + 5 * duration
     console.log(noise.name, timeout)
     //start playing after timeout
     setTimeout(() => {
-      audioRef?.current?.play()
+      console.log('playing')
+      audioRef.current?.play()
     }, timeout)
   }
 
@@ -26,16 +27,21 @@ const NoiseComponent: any = (noise: Noise) => {
   }
   useEffect(() => {
     console.log('mount noise', noise.name)
+    //for bg noise dont add event
+
     if (audioRef && audioRef.current) {
+      if (noise.src.includes('background')) {
+        volumeCtrl(0.4)
+      } else {
+        volumeCtrl(0.5)
+      }
       if (noise.isPlaying && !noise.src.includes('background'))
-        //for bg noise dont add event
         audioRef.current.addEventListener('ended', loopFn)
-      else audioRef.current.removeEventListener('ended', loopFn)
     }
   }, [])
 
   return noise.isPlaying ? (
-    <div className="flex">
+    <div className="flex flex-col">
       <audio
         ref={audioRef}
         src={noise.src}
