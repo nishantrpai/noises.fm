@@ -20,16 +20,18 @@ const Home: NextPage = () => {
           <h1 className="w-max border-b-2 border-slate-500 py-2 text-sm font-bold text-slate-400">
             Noises.fm
           </h1>
-          <div className="border">
+          <div>
             {/** player */}
-            <p className="mt-4 font-bold text-gray-500">Functions</p>
+            <p className="mt-4 mb-4 font-bold text-gray-500">Functions</p>
             <div className="grid grid-cols-4 gap-4">
               {functions.map((fn) => (
                 <a
                   onClick={() => playFn(fn.name)}
                   className={`${
-                    currentTheme == fn.name ? 'text-white' : 'text-gray-400'
-                  } text-sm`}
+                    currentTheme == fn.name
+                      ? 'bg-gray-800 text-white'
+                      : 'bg-gray-900 text-gray-400'
+                  } rounded-md p-4 text-sm`}
                 >
                   {fn.name}
                 </a>

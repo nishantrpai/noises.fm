@@ -42,7 +42,7 @@ const NoiseComponent: any = (props: any) => {
   return (
     <div
       className={`flex flex-col py-2 ${
-        noise.isPlaying ? 'text-white' : 'text-slate-400'
+        noise.isPlaying ? 'text-white' : 'text-gray-800'
       }`}
     >
       <div
@@ -59,6 +59,9 @@ const NoiseComponent: any = (props: any) => {
         value={volume}
         min="0"
         max="100"
+        className={`form-range h-1 w-full appearance-none p-0 focus:shadow-none focus:outline-none ${
+          noise.isPlaying ? 'bg-gray-700' : 'bg-gray-800'
+        }`}
         onChange={(e) => volumeCtrl(parseInt(e.target.value) / 100)}
       />
       <audio
