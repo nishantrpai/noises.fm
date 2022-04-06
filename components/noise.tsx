@@ -39,14 +39,14 @@ const NoiseComponent: any = (props: any) => {
 
   return (
     <div className="flex flex-col">
-      <span
-      className='flex items-center text-md'
+      <div
+      className='flex items-center text-sm'
         onClick={() => {
           playSong(noise)
         }}
       >
       {noise.icon}  {noise.name} ({noise.type}) {noise.isPlaying ? '🔊' : ''}
-      </span>
+      </div>
       {noise.isPlaying && (
         <div>
           <audio

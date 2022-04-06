@@ -8,9 +8,9 @@ import AudioContext, {
 import { useEffect, useState } from 'react'
 import { BsCloudLightningRainFill, BsFillCloudRainFill, } from 'react-icons/bs'
 import { FiWind} from 'react-icons/fi'
-import { GiCampfire, GiHummingbird} from 'react-icons/gi'
+import { GiCampfire, GiHummingbird, GiForest} from 'react-icons/gi'
 import { WiNightAltCloudy} from 'react-icons/wi'
-import { FaFan} from 'react-icons/fa'
+import { FaFan, FaUmbrellaBeach} from 'react-icons/fa'
 
 /**
  * Logic:
@@ -45,14 +45,14 @@ const noises: Noise[] = [
     name: 'Pattaya Beach',
     src: '/audio/background/nature/pattaya-beach.mp3',
     type: 'work',
-    icon: '🏖️',
+    icon: <FaUmbrellaBeach/>,
     isPlaying: false,
   },
   {
     name: 'Forest Summer',
     src: '/audio/background/nature/forest-summer.mp3',
     type: 'work',
-    icon: '🌳',
+    icon: <GiForest/>,
     isPlaying: false,
   },
   {
