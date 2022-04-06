@@ -9,7 +9,7 @@ const Home: NextPage = () => {
   const { state, playFn, playSong } = useContext(AudioContext)
   const { noises, functions, currentTheme } = state
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2">
+    <div className="flex min-h-screen flex-col items-center justify-center py-2 bg-black">
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
@@ -21,7 +21,7 @@ const Home: NextPage = () => {
           <a
             onClick={() => playFn(fn.name)}
             className={`${
-              currentTheme == fn.name ? 'text-blue-800' : 'text-black'
+              currentTheme == fn.name ? 'text-blue-800' : 'text-white'
             }`}
           >
             {fn.name}
@@ -32,16 +32,9 @@ const Home: NextPage = () => {
           .filter((noise) => noise.src.includes('primary'))
           .map((noise: Noise) => (
             <div
-              className={`${noise.isPlaying ? 'text-blue-600' : 'text-black'}`}
+              className={`${noise.isPlaying ? 'text-blue-600' : 'text-white'}`}
             >
-              <span
-                onClick={() => {
-                  playSong(noise)
-                }}
-              >
-                {noise.name} ({noise.type}) {noise.isPlaying ? '🔊' : ''}
-              </span>
-              {noise.isPlaying && <NoiseComponent {...noise} />}
+              <NoiseComponent noise={noise} playSong={playSong} />
             </div>
           ))}
 
@@ -50,16 +43,9 @@ const Home: NextPage = () => {
           .filter((noise) => noise.src.includes('background'))
           .map((noise: Noise) => (
             <div
-              className={`${noise.isPlaying ? 'text-blue-600' : 'text-black'}`}
+              className={`${noise.isPlaying ? 'text-blue-600' : 'text-white'}`}
             >
-              <span
-                onClick={() => {
-                  playSong(noise)
-                }}
-              >
-                {noise.name} ({noise.type}) {noise.isPlaying ? '🔊' : ''}
-              </span>
-              {noise.isPlaying && <NoiseComponent {...noise} />}
+              <NoiseComponent noise={noise} playSong={playSong} />
             </div>
           ))}
       </main>

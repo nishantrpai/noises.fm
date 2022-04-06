@@ -6,6 +6,11 @@ import AudioContext, {
   NoiseFunction,
 } from '../util/appcontext'
 import { useEffect, useState } from 'react'
+import { BsCloudLightningRainFill, BsFillCloudRainFill, } from 'react-icons/bs'
+import { FiWind} from 'react-icons/fi'
+import { GiCampfire, GiHummingbird} from 'react-icons/gi'
+import { WiNightAltCloudy} from 'react-icons/wi'
+import { FaFan} from 'react-icons/fa'
 
 /**
  * Logic:
@@ -26,54 +31,63 @@ const noises: Noise[] = [
     name: 'Heavy Rain',
     src: '/audio/background/nature/rain-strong-with-thunders.mp3',
     type: 'sleep',
+    icon: <BsCloudLightningRainFill/>,
     isPlaying: false,
   },
   {
     name: 'Light Rain',
     src: '/audio/background/nature/rain-falls-against-the-parasol.mp3',
     type: 'work',
+    icon: <BsFillCloudRainFill/>,
     isPlaying: false,
   },
   {
     name: 'Pattaya Beach',
     src: '/audio/background/nature/pattaya-beach.mp3',
     type: 'work',
+    icon: '🏖️',
     isPlaying: false,
   },
   {
     name: 'Forest Summer',
     src: '/audio/background/nature/forest-summer.mp3',
     type: 'work',
+    icon: '🌳',
     isPlaying: false,
   },
   {
     name: 'Wind Blowing',
     src: '/audio/primary/wind-blow.mp3',
     type: 'sleep',
+    icon: <FiWind/>,
     isPlaying: false,
   },
   {
     name: 'Camp Fire',
     src: '/audio/primary/camp-fire.mp3',
     type: 'work',
+    icon: <GiCampfire/>,
     isPlaying: false,
   },
   {
     name: 'Birds Singing',
     src: '/audio/primary/birds-singing.mp3',
     type: 'work',
+    icon: <GiHummingbird/>,
     isPlaying: false,
   },
   {
     name: 'Fan',
     src: '/audio/primary/fan-01.mp3',
     type: 'work',
+    icon: <FaFan/>,
     isPlaying: false,
   },
   {
     name: 'Night',
     src: '/audio/primary/cicada-night.mp3',
     type: 'sleep',
+    icon: <WiNightAltCloudy/>,
     isPlaying: false,
   },
 ]

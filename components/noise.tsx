@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Noise } from '../util/appcontext'
 
-const NoiseComponent: any = (noise: Noise) => {
+const NoiseComponent: any = (props: any) => {
+  const { noise, playSong } = props
   const audioRef = useRef<any>(null)
 
   const [volume, setVolume] = useState(100)
@@ -11,10 +12,8 @@ const NoiseComponent: any = (noise: Noise) => {
     console.log(duration)
     //timeout before playing the track again
     let timeout = Math.floor(Math.random() * 10 * duration) + 5 * duration
-    console.log(noise.name, timeout)
     //start playing after timeout
     setTimeout(() => {
-      console.log('playing')
       audioRef.current?.play()
     }, timeout)
   }
@@ -26,9 +25,7 @@ const NoiseComponent: any = (noise: Noise) => {
     }
   }
   useEffect(() => {
-    console.log('mount noise', noise.name)
     //for bg noise dont add event
-
     if (audioRef && audioRef.current) {
       if (noise.src.includes('background')) {
         volumeCtrl(0.4)
@@ -40,31 +37,43 @@ const NoiseComponent: any = (noise: Noise) => {
     }
   }, [])
 
-  return noise.isPlaying ? (
+  return (
     <div className="flex flex-col">
-      <audio
-        ref={audioRef}
-        src={noise.src}
-        autoPlay
-        loop={noise.src.includes('background')} //background noise needn't worry about delay for looping
-      />
-      <div className="flex">
-        <button
-          className="w-24 bg-gray-100 p-2"
-          onClick={() => volumeCtrl(audioRef?.current?.volume + 0.01)}
-        >
-          +
-        </button>
-        <span className="w-24 p-2">{volume}</span>
-        <button
-          className="w-24 bg-gray-100 p-2"
-          onClick={() => volumeCtrl(audioRef?.current?.volume - 0.01)}
-        >
-          -
-        </button>
-      </div>
+      <span
+      className='flex items-center text-md'
+        onClick={() => {
+          playSong(noise)
+        }}
+      >
+      {noise.icon}  {noise.name} ({noise.type}) {noise.isPlaying ? '🔊' : ''}
+      </span>
+      {noise.isPlaying && (
+        <div>
+          <audio
+            ref={audioRef}
+            src={noise.src}
+            autoPlay
+            loop={noise.src.includes('background')} //background noise needn't worry about delay for looping
+          />
+          <div className="flex">
+            <button
+              className="w-24 bg-gray-100 p-2"
+              onClick={() => volumeCtrl(audioRef?.current?.volume + 0.01)}
+            >
+              +
+            </button>
+            <span className="w-24 p-2">{volume}</span>
+            <button
+              className="w-24 bg-gray-100 p-2"
+              onClick={() => volumeCtrl(audioRef?.current?.volume - 0.01)}
+            >
+              -
+            </button>
+          </div>
+        </div>
+      )}
     </div>
-  ) : null
+  )
 }
 
 export default NoiseComponent

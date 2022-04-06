@@ -4,6 +4,7 @@ export interface Noise {
   name: any
   src: any
   type: any
+  icon: any
   isPlaying: boolean
 }
 
