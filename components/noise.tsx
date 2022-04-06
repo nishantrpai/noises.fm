@@ -9,7 +9,6 @@ const NoiseComponent: any = (props: any) => {
 
   const loopFn = () => {
     let duration = Math.ceil(audioRef?.current?.duration * 100)
-    console.log(duration)
     //timeout before playing the track again
     let timeout = Math.floor(Math.random() * 10 * duration) + 5 * duration
     //start playing after timeout
@@ -40,12 +39,12 @@ const NoiseComponent: any = (props: any) => {
   return (
     <div className="flex flex-col">
       <div
-      className='flex items-center text-sm'
+        className="flex items-center text-sm"
         onClick={() => {
           playSong(noise)
         }}
       >
-      {noise.icon}  {noise.name} ({noise.type}) {noise.isPlaying ? '🔊' : ''}
+        {noise.icon} {noise.name}
       </div>
       {noise.isPlaying && (
         <div>
@@ -56,7 +55,14 @@ const NoiseComponent: any = (props: any) => {
             loop={noise.src.includes('background')} //background noise needn't worry about delay for looping
           />
           <div className="flex">
-            <button
+            <input
+              type="range"
+              defaultValue={volume}
+              min="0"
+              max="100"
+              onChange={(e) => volumeCtrl(parseInt(e.target.value) / 100)}
+            />
+            {/* <button
               className="w-24 bg-gray-100 p-2"
               onClick={() => volumeCtrl(audioRef?.current?.volume + 0.01)}
             >
@@ -68,7 +74,7 @@ const NoiseComponent: any = (props: any) => {
               onClick={() => volumeCtrl(audioRef?.current?.volume - 0.01)}
             >
               -
-            </button>
+            </button> */}
           </div>
         </div>
       )}

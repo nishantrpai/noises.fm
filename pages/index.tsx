@@ -8,7 +8,7 @@ const Home: NextPage = () => {
   const { state, playFn, playSong } = useContext(AudioContext)
   const { noises, functions, currentTheme } = state
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center py-2 bg-black">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-black py-2">
       <Head>
         <title>noises.fm</title>
         <link rel="icon" href="/favicon.ico" />
@@ -20,13 +20,13 @@ const Home: NextPage = () => {
           <a
             onClick={() => playFn(fn.name)}
             className={`${
-              currentTheme == fn.name ? 'text-white' : 'text-gray-100'
-            }`}
+              currentTheme == fn.name ? 'text-white' : 'text-gray-400'
+            } text-sm`}
           >
             {fn.name}
           </a>
         ))}
-        <p className="mt-4 font-bold">Primary</p>
+        <p className="mt-4 font-bold text-gray-500">Primary</p>
         {noises
           .filter((noise) => noise.src.includes('primary'))
           .map((noise: Noise) => (
@@ -37,7 +37,7 @@ const Home: NextPage = () => {
             </div>
           ))}
 
-        <p className="mt-4 font-bold">Background</p>
+        <p className="mt-4 font-bold text-gray-500">Background</p>
         {noises
           .filter((noise) => noise.src.includes('background'))
           .map((noise: Noise) => (
