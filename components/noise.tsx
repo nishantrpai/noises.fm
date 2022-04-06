@@ -45,7 +45,7 @@ const NoiseComponent: any = (props: any) => {
           playSong(noise)
         }}
       >
-        {noise.icon} {noise.name} {volume}
+        {noise.icon} {noise.name}
       </div>
       {noise.isPlaying && (
         <div>
