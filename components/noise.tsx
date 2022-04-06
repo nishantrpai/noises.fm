@@ -27,6 +27,7 @@ const NoiseComponent: any = (props: any) => {
     //for bg noise dont add event
     if (audioRef && audioRef.current) {
       if (noise.src.includes('background')) {
+        console.log('set volume')
         volumeCtrl(0.4)
       } else {
         volumeCtrl(0.5)
@@ -34,7 +35,7 @@ const NoiseComponent: any = (props: any) => {
       if (noise.isPlaying && !noise.src.includes('background'))
         audioRef.current.addEventListener('ended', loopFn)
     }
-  }, [])
+  }, [noise.isPlaying])
 
   return (
     <div className="flex flex-col">
@@ -44,7 +45,7 @@ const NoiseComponent: any = (props: any) => {
           playSong(noise)
         }}
       >
-        {noise.icon} {noise.name}
+        {noise.icon} {noise.name} {volume}
       </div>
       {noise.isPlaying && (
         <div>
@@ -57,7 +58,7 @@ const NoiseComponent: any = (props: any) => {
           <div className="flex">
             <input
               type="range"
-              defaultValue={volume}
+              value={volume}
               min="0"
               max="100"
               onChange={(e) => volumeCtrl(parseInt(e.target.value) / 100)}

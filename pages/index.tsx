@@ -16,6 +16,10 @@ const Home: NextPage = () => {
 
       <main className="flex w-full flex-1 flex-col justify-center px-20">
         {/** items center */}
+        <h1 className="text-sm font-bold w-max border-b-2 border-slate-400 text-slate-400">
+          Noises.fm
+        </h1>
+        <p className="mt-4 font-bold text-gray-500">Functions</p>
         {functions.map((fn) => (
           <a
             onClick={() => playFn(fn.name)}
