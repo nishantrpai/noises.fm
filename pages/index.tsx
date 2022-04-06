@@ -14,43 +14,45 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex w-full flex-1 flex-col justify-center px-20">
+      <main className="flex	max-h-fit w-full max-w-xl flex-1 flex-col justify-center">
         {/** items center */}
-        <h1 className="text-sm font-bold w-max border-b-2 border-slate-400 text-slate-400">
-          Noises.fm
-        </h1>
-        <p className="mt-4 font-bold text-gray-500">Functions</p>
-        {functions.map((fn) => (
-          <a
-            onClick={() => playFn(fn.name)}
-            className={`${
-              currentTheme == fn.name ? 'text-white' : 'text-gray-400'
-            } text-sm`}
-          >
-            {fn.name}
-          </a>
-        ))}
-        <p className="mt-4 font-bold text-gray-500">Primary</p>
-        {noises
-          .filter((noise) => noise.src.includes('primary'))
-          .map((noise: Noise) => (
-            <div
-              className={`${noise.isPlaying ? 'text-white' : 'text-gray-400'}`}
-            >
-              <NoiseComponent noise={noise} playSong={playSong} />
+        <div className="max-h-max">
+          <h1 className="w-max border-b-2 border-slate-500 py-2 text-sm font-bold text-slate-400">
+            Noises.fm
+          </h1>
+          <div className="border">
+            {/** player */}
+            <p className="mt-4 font-bold text-gray-500">Functions</p>
+            <div className="grid grid-cols-4 gap-4">
+              {functions.map((fn) => (
+                <a
+                  onClick={() => playFn(fn.name)}
+                  className={`${
+                    currentTheme == fn.name ? 'text-white' : 'text-gray-400'
+                  } text-sm`}
+                >
+                  {fn.name}
+                </a>
+              ))}
             </div>
-          ))}
-
-        <p className="mt-4 font-bold text-gray-500">Background</p>
-        {noises
-          .filter((noise) => noise.src.includes('background'))
-          .map((noise: Noise) => (
-            <div
-              className={`${noise.isPlaying ? 'text-white' : 'text-gray-400'}`}
-            >
-              <NoiseComponent noise={noise} playSong={playSong} />
+            <p className="mt-4 font-bold text-gray-500">Primary</p>
+            <div className="grid grid-cols-4 gap-4">
+              {noises
+                .filter((noise) => noise.src.includes('primary'))
+                .map((noise: Noise) => (
+                  <NoiseComponent noise={noise} playSong={playSong} />
+                ))}
             </div>
-          ))}
+            <p className="mt-4 font-bold text-gray-500">Background</p>
+            <div className="grid grid-cols-4 gap-4">
+              {noises
+                .filter((noise) => noise.src.includes('background'))
+                .map((noise: Noise) => (
+                  <NoiseComponent noise={noise} playSong={playSong} />
+                ))}
+            </div>
+          </div>
+        </div>
       </main>
     </div>
   )

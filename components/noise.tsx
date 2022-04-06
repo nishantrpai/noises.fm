@@ -8,12 +8,16 @@ const NoiseComponent: any = (props: any) => {
   const [volume, setVolume] = useState(100)
 
   const loopFn = () => {
+    console.log('triggered')
     let duration = Math.ceil(audioRef?.current?.duration * 100)
     //timeout before playing the track again
-    let timeout = Math.floor(Math.random() * 10 * duration) + 5 * duration
+    let timeout = Math.floor(Math.random() * 4 * duration) + 2 * duration
     //start playing after timeout
     setTimeout(() => {
-      audioRef.current?.play()
+      if (noise.isPlaying) {
+        console.log('playing', noise.name)
+        audioRef.current?.play()
+      }
     }, timeout)
   }
 
@@ -24,61 +28,44 @@ const NoiseComponent: any = (props: any) => {
     }
   }
   useEffect(() => {
+    if (!noise.src.includes('background'))
+      audioRef.current.addEventListener('ended', loopFn)
+  }, [])
+
+  useEffect(() => {
     //for bg noise dont add event
-    if (audioRef && audioRef.current) {
-      if (noise.src.includes('background')) {
-        console.log('set volume')
-        volumeCtrl(0.4)
-      } else {
-        volumeCtrl(0.5)
-      }
-      if (noise.isPlaying && !noise.src.includes('background'))
-        audioRef.current.addEventListener('ended', loopFn)
-    }
+    if (audioRef && audioRef.current)
+      if (noise.isPlaying) audioRef.current.play()
+      else audioRef.current.pause()
   }, [noise.isPlaying])
 
   return (
-    <div className="flex flex-col">
+    <div
+      className={`flex flex-col py-2 ${
+        noise.isPlaying ? 'text-white' : 'text-slate-400'
+      }`}
+    >
       <div
-        className="flex items-center text-sm"
+        className="flex flex-col items-center py-4"
         onClick={() => {
           playSong(noise)
         }}
       >
-        {noise.icon} {noise.name}
+        <span className="text-4xl">{noise.icon}</span>
+        <span>{noise.name}</span>
       </div>
-      {noise.isPlaying && (
-        <div>
-          <audio
-            ref={audioRef}
-            src={noise.src}
-            autoPlay
-            loop={noise.src.includes('background')} //background noise needn't worry about delay for looping
-          />
-          <div className="flex">
-            <input
-              type="range"
-              value={volume}
-              min="0"
-              max="100"
-              onChange={(e) => volumeCtrl(parseInt(e.target.value) / 100)}
-            />
-            {/* <button
-              className="w-24 bg-gray-100 p-2"
-              onClick={() => volumeCtrl(audioRef?.current?.volume + 0.01)}
-            >
-              +
-            </button>
-            <span className="w-24 p-2">{volume}</span>
-            <button
-              className="w-24 bg-gray-100 p-2"
-              onClick={() => volumeCtrl(audioRef?.current?.volume - 0.01)}
-            >
-              -
-            </button> */}
-          </div>
-        </div>
-      )}
+      <input
+        type="range"
+        value={volume}
+        min="0"
+        max="100"
+        onChange={(e) => volumeCtrl(parseInt(e.target.value) / 100)}
+      />
+      <audio
+        ref={audioRef}
+        src={noise.src}
+        loop={noise.src.includes('background')} //background noise needn't worry about delay for looping
+      />
     </div>
   )
 }
