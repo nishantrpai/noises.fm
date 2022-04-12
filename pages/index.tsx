@@ -5,8 +5,8 @@ import NoiseComponent from '../components/noise'
 import AudioContext, { Noise } from '../util/appcontext'
 
 const Home: NextPage = () => {
-  const { state, playFn, playSong } = useContext(AudioContext)
-  const { noises, functions, currentTheme } = state
+  const { state, playFn, playSong, setCurrentState, clearPlaylist } = useContext(AudioContext)
+  const { noises, functions, currentTheme, currentState } = state
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-black py-2">
       <Head>
@@ -21,6 +21,22 @@ const Home: NextPage = () => {
             Noises.fm
           </h1>
           <div>
+            {/* global turn off */}
+            <div className="mt-4 flex justify-end text-sm">
+              <a
+                onClick={() => {
+                  if (currentState) clearPlaylist()
+                  setCurrentState(!currentState)
+                }}
+                className={`${
+                  currentState
+                    ? 'bg-gray-800 text-white'
+                    : 'bg-gray-900 text-gray-400'
+                } rounded-md p-2 text-sm`}
+              >
+                {currentState ? 'ON' : 'OFF'}
+              </a>
+            </div>
             {/** player */}
             <p className="mt-4 mb-4 font-bold text-gray-500">Functions</p>
             <div className="grid grid-cols-4 gap-4">

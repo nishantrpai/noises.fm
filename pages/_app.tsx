@@ -103,6 +103,7 @@ const noises: Noise[] = [
 function MyApp({ Component, pageProps }: AppProps) {
   const [currentTheme, setCurrentTheme] = useState<any>(null)
   const [currentPlaylist, setCurrentPlayList] = useState<Noise[]>([])
+  const [currentState, setCurrentState] = useState<boolean>(false)
 
   useEffect(() => {
     console.log('app init')
@@ -116,6 +117,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   const addToPlayList = (noise: Noise) => {
     noise.isPlaying = true
+    setCurrentState(true)
     setCurrentPlayList([...currentPlaylist, noise])
   }
 
@@ -171,9 +173,17 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AudioContext.Provider
       value={{
-        state: { noises, functions, currentTheme, currentPlaylist },
+        state: {
+          noises,
+          functions,
+          currentTheme,
+          currentPlaylist,
+          currentState,
+        },
         playFn,
         playSong,
+        setCurrentState,
+        clearPlaylist,
       }}
     >
       <Component {...pageProps} />

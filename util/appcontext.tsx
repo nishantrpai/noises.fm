@@ -18,9 +18,12 @@ export interface AudioContextState {
     functions: NoiseFunction[]
     currentPlaylist: Noise[]
     currentTheme: any
+    currentState: any
   }
   playFn: (fn: string) => any
   playSong: (noise: Noise) => any
+  setCurrentState: (state: boolean) => any
+  clearPlaylist: () => any
 }
 
 const AudioContext = createContext({} as AudioContextState)
